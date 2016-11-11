@@ -60,6 +60,8 @@ export function postComment(feedItemId, author, contents, cb) {
     emulateServerReturn(getFeedItemSync(feedItemId), cb);
 }
 
+
+
 export function likeFeedItem(feedItemId, userId, cb) {
     var feedItem = readDocument('feedItems', feedItemId);
     feedItem.likeCounter.push(userId);
@@ -76,5 +78,30 @@ export function unlikeFeedItem(feedItemId, userId, cb) {
         writeDocument('feedItems', feedItem);
     }
     emulateServerReturn(feedItem.likeCounter.map((userId) =>
+        readDocument('users', userId)), cb);
+}
+
+
+
+export function likeCommentItem(feedItemId, commentId, userId, cb) {
+    var feedItem = readDocument('feedItems', feedItemId);
+
+    commentId = commentid - 1;
+    feedItem.comments[commentId].likeCounter.push(userId);
+    writeDocument('feedcommentItems', feedItem);
+    emulateServerReturn(feedItem.likeCounter.map((userId) =>
+        readDocument('users', userId)), cb);
+}
+
+export function unlikeCommentItem(feedItemId, commentId, userId, cb) {
+    var feedItem = readDocument('feedItems', feedItemId);
+
+    commentId = commentid - 1;
+    var userIndex = feedItem.comments[commentId].likeCounter.indexOf(userId);
+    if (userIndex !== -1) {
+        commentItem.likeCounter.splice(userIndex, 1);
+        writeDocument('feedItems', feedItem);
+    }
+    emulateServerReturn(commentItem.likeCounter.map((userId) =>
         readDocument('users', userId)), cb);
 }

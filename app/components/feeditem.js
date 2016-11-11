@@ -2,7 +2,7 @@ import React from 'react';
 import StatusUpdate from './statusupdate';
 import CommentThread from './commentthread';
 import Comment from './comment';
-import {postComment, likeFeedItem, unlikeFeedItem} from '../server';
+import {postComment, likeFeedItem, unlikeFeedItem} from './../server';
 
 export default class FeedItem extends React.Component {
     constructor(props) {
@@ -18,21 +18,9 @@ export default class FeedItem extends React.Component {
         });
     }
     handleLikeClick(clickEvent) {
-        // Stop the event from propagating up the DOM
-        // tree, since we handle it here. Also prevents
-        // the link click from causing the page to scroll to the top.
         clickEvent.preventDefault();
-        // 0 represents the 'main mouse button' --
-        // typically a left click
-        // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button
         if (clickEvent.button === 0) {
-            // Callback function for both the like and unlike cases.
             var callbackFunction = (updatedLikeCounter) => {
-                // setState will overwrite the 'likeCounter'
-                // field on the current state, and will keep
-                // the other fields in-tact. This is called a
-                // shallow merge:
-                // https://facebook.github.io/react/docs/component-api.html#setstate
                 this.setState({likeCounter: updatedLikeCounter});
             };
             if (this.didUserLike()) {
@@ -134,12 +122,12 @@ export default class FeedItem extends React.Component {
                         {data.comments.map((comment, i) => {
                             // i is comment's index in comments array
                             return (
-                                <Comment key={i} author={comment.author} postDate={comment.postDate}>
+                                <Comment key={i} feedItemId={this.state._id} comment={comment}>
                                     {comment.contents}
                                 </Comment>
                             );
                         })
-                    } < /CommentThread>
+                    } </CommentThread>
                 </div > </div>)
                 }
             }
