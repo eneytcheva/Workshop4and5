@@ -2,6 +2,7 @@ import React from 'react';
 import StatusUpdate from './statusupdate';
 import CommentThread from './commentthread';
 import Comment from './comment';
+import {postComment, likeFeedItem, unlikeFeedItem} from '../server';
 
 export default class FeedItem extends React.Component {
     constructor(props) {
@@ -78,7 +79,7 @@ export default class FeedItem extends React.Component {
                 // so we can re-use the same key as the FeedItem.
                 contents = (
                     <StatusUpdate key={data._id} author={data.contents.author} postDate={data.contents.postDate} location={data.contents.location}>
-                        {data.contents.contents.split("\n").map((line) => {
+                        {data.contents.contents.split("\n").map((line, i) => {
                             return (
                                 <p key={"line" + i}>{line}</p>
                             );
@@ -95,7 +96,6 @@ export default class FeedItem extends React.Component {
                 <div className="panel-body">
                     {contents}
                     <hr/>
-                    8
                     <div className="row">
                         <div className="col-md-12">
                             <ul className="list-inline">
