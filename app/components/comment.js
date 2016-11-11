@@ -1,5 +1,5 @@
 import React from 'react';
-import unixTimeToString from 'utils';
+import unixTimeToString from '../util';
 
 export default class Comment extends React.Component {
     render() {
